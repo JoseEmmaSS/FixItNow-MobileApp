@@ -1,44 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:showIn ="navigation_view">
-
-    <group
-        android:checkableBehavior="single">
-
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_home"
-            android:icon="@drawable/baseline_home_24"
-            android:title="Home"/>
-
+            android:id="@+id/herramientas"
+            android:icon="@drawable/baseline_widgets_24"
+            android:title="Herramientas" />
         <item
-            android:id="@+id/nav_Order"
-            android:icon="@drawable/baseline_library_books_24"
-            android:title="Orden"/>
-
+            android:id="@+id/configuracion"
+            android:icon="@drawable/baseline_settings_24"
+            android:title="Configuración" />
         <item
-            android:id="@+id/nav_Profile"
-            android:icon="@drawable/baseline_person_24"
-            android:title="Perfil"/>
-
+            android:id="@+id/ayuda"
+            android:icon="@drawable/baseline_help_24"
+            android:title="Ayuda" />
     </group>
-
-    <item
-        android:title="">
-
+    <item android:title="">
         <menu>
             <item
                 android:id="@+id/nav_logout"
                 android:icon="@drawable/baseline_exit_to_app_24"
-                android:title="Salir"/>
-
-
+                android:title="Salir" />
         </menu>
-
-
     </item>
-
-
-
 </menu>

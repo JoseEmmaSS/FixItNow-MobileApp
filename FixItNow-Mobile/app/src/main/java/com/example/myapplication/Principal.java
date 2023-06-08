@@ -3,18 +3,20 @@ package com.example.myapplication;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import android.os.Bundle;
-import android.widget.Toast;
-import android.view.MenuItem;
-import androidx.fragment.app.Fragment;
-import androidx.core.view.GravityCompat;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.FragmentManager;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.MenuItem;
+import android.widget.Toast;
+
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
 
 public class Principal extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -42,9 +44,9 @@ public class Principal extends AppCompatActivity implements NavigationView.OnNav
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_nav, R.string.close_nav);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
+
         if (savedInstanceState == null) {
             switchFragment(fragmentHome);
-            navigationView.setCheckedItem(R.id.nav_home);
         }
 
         // Inicializar fragmentos
@@ -79,7 +81,6 @@ public class Principal extends AppCompatActivity implements NavigationView.OnNav
         getSupportFragmentManager().beginTransaction().add(R.id.fragmentContainer, fragmentHome).commit();
     }
 
-
     @Override
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -105,8 +106,21 @@ public class Principal extends AppCompatActivity implements NavigationView.OnNav
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            // Aquí puedes manejar los eventos de los elementos del NavigationView
+            case R.id.herramientas:
+                Toast.makeText(this, "Herramientas seleccionada", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, Herramientras.class);
+                startActivity(intent);
+                return true;
+            case R.id.configuracion:
+                // Acciones a realizar cuando se selecciona la opción "Configuración"
+                Toast.makeText(this, "Configuración seleccionada", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.ayuda:
+                // Acciones a realizar cuando se selecciona la opción "Ayuda"
+                Toast.makeText(this, "Ayuda seleccionada", Toast.LENGTH_SHORT).show();
+                break;
         }
+
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
