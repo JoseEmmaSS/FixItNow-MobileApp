@@ -16,7 +16,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
-public class Principal extends AppCompatActivity {
+public class Principal extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private BottomNavigationView bottomNavigationView;
     private DrawerLayout drawerLayout;
@@ -32,12 +32,12 @@ public class Principal extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_principal);
 
-        Toolbar toolbar = findViewById(R.id.toolbar); //Ignora linea de errores
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         drawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.view);
-        navigationView.setNavigationItemSelectedListener((NavigationView.OnNavigationItemSelectedListener) this);
+        navigationView.setNavigationItemSelectedListener(this);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_nav, R.string.close_nav);
         drawerLayout.addDrawerListener(toggle);
@@ -58,12 +58,8 @@ public class Principal extends AppCompatActivity {
         // Configurar el BottomNavigationView
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-
-
-
             @Override
-            public boolean onNavigationItemSelected(MenuItem item) {
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.bottom_home:
                         switchFragment(fragmentHome);
@@ -75,7 +71,6 @@ public class Principal extends AppCompatActivity {
                         switchFragment(fragmentProfile);
                         return true;
                 }
-                drawerLayout.closeDrawer(GravityCompat.START);
                 return false;
             }
         });
@@ -95,13 +90,24 @@ public class Principal extends AppCompatActivity {
     }
 
     private void switchFragment(Fragment fragment) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        if (!fragment.isAdded()) {
-            fragmentTransaction.hide(activeFragment).add(R.id.fragmentContainer, fragment).commit();
-        } else {
-            fragmentTransaction.hide(activeFragment).show(fragment).commit();
+        if (fragment != null) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            if (!fragment.isAdded()) {
+                fragmentTransaction.hide(activeFragment).add(R.id.fragmentContainer, fragment).commit();
+            } else {
+                fragmentTransaction.hide(activeFragment).show(fragment).commit();
+            }
+            activeFragment = fragment;
         }
-        activeFragment = fragment;
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            // Aquí puedes manejar los eventos de los elementos del NavigationView
+        }
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
     }
 }

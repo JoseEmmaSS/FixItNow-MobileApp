@@ -55,7 +55,7 @@ public class login extends AppCompatActivity {
                 if (correo.isEmpty() || contrasena.isEmpty()) {
                     Toast.makeText(login.this, "Por favor, ingresa correo y contraseña", Toast.LENGTH_SHORT).show();
                 } else {
-                    validarUsuario("http://192.168.0.9/phpconex/validar_usuario.php", correo, contrasena);
+                    validarUsuario("http://192.168.137.1/phpconex/validar_usuario.php", correo, contrasena);
                 }
             }
         });

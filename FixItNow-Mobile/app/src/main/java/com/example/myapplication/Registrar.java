@@ -54,7 +54,7 @@ public class Registrar extends AppCompatActivity {
                 if (nombre.isEmpty() || usuario.isEmpty() || contrasena.isEmpty() || correo.isEmpty() || telefono.isEmpty()) {
                     Toast.makeText(Registrar.this, "Por favor, completa todos los campos", Toast.LENGTH_SHORT).show();
                 } else {
-                    registrarUsuario("http://192.168.0.9/phpconex/IntertarUsuario.php", nombre, usuario, contrasena, correo, telefono);
+                    registrarUsuario("http://192.168.137.1/phpconex/IntertarUsuario.php", nombre, usuario, contrasena, correo, telefono);
                 }
             }
         });
