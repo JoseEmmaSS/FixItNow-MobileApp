@@ -3,7 +3,6 @@ $servername = "localhost";
 $username = "root";
 $password = "";
 $database = "fixinow";
-
 // Crear una conexión
 $conexion = new mysqli($servername, $username, $password, $database);
 
@@ -22,21 +21,16 @@ $sentencia->execute();
 $resultado = $sentencia->get_result();
 if ($fila = $resultado->fetch_assoc()) {
     $response = array(
-        'success' => true,
-        'user' => $fila
+        'success' => 'true',
+        'message' => 'Usuario autenticado correctamente'
     );
     echo json_encode($response, JSON_UNESCAPED_UNICODE);
 } else {
-   // Verificar qué dato es incorrecto
-   $sentencia = $conexion->prepare("SELECT * FROM usuarios WHERE correo=?");
-   $sentencia->bind_param('s', $correo);
-   $sentencia->execute();
-   $resultado = $sentencia->get_result();
-   if ($fila = $resultado->fetch_assoc()) {
-       echo "contraseña incorrecta";
-   } else {
-       echo "correo incorrecto";
-   }
+    $response = array(
+        'success' => 'false',
+        'message' => 'Correo o contraseña incorrectos'
+    );
+    echo json_encode($response, JSON_UNESCAPED_UNICODE);
 }
 
 $sentencia->close();
