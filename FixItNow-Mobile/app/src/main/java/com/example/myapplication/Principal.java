@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -119,6 +120,21 @@ public class Principal extends AppCompatActivity implements NavigationView.OnNav
                 // Acciones a realizar cuando se selecciona la opción "Ayuda"
                 Toast.makeText(this, "Ayuda seleccionada", Toast.LENGTH_SHORT).show();
                 break;
+            case R.id.nav_logout:
+                // Eliminar los datos de inicio de sesión guardados en las SharedPreferences del MainActivity
+                SharedPreferences sharedPreferences = getSharedPreferences(MainActivity.PREF_NAME, MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.remove(MainActivity.KEY_USERNAME);
+                 editor.remove(MainActivity.KEY_PASSWORD);
+                 editor.apply();
+
+                // Regresar al MainActivity
+                intent = new Intent(Principal.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // Borrar todas las actividades anteriores
+                startActivity(intent);
+                finish();
+                return true;
+
         }
 
         drawerLayout.closeDrawer(GravityCompat.START);

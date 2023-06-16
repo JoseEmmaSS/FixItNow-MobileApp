@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,9 +21,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.myapplication.Principal;
-import com.example.myapplication.R;
-import com.example.myapplication.Recuperar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,6 +31,10 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
     EditText et_correo, et_contrasena;
     Button iniciar_sesion;
+
+    public static final String PREF_NAME = "LoginPrefs";
+    public static final String KEY_USERNAME = "username";
+    public static final String KEY_PASSWORD = "password";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,14 @@ public class MainActivity extends AppCompatActivity {
         TextView recContrasenaTextView = findViewById(R.id.rec_contrasena);
         TextView crearCuentaTextView = findViewById(R.id.crearCuenta);
 
+        // Verificar automáticamente el inicio de sesión
+        SharedPreferences sharedPreferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
+        String savedUsername = sharedPreferences.getString(KEY_USERNAME, "");
+        String savedPassword = sharedPreferences.getString(KEY_PASSWORD, "");
+
+        if (!savedUsername.isEmpty() && !savedPassword.isEmpty()) {
+            validarUsuario("http://192.168.0.7/phpconex/validar_usuario.php", savedUsername, savedPassword);
+        }
 
         iniciar_sesion.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,19 +95,33 @@ public class MainActivity extends AppCompatActivity {
 
                 Toast.makeText(MainActivity.this, "Respuesta: " + response, Toast.LENGTH_SHORT).show();
 
-
                 try {
                     JSONObject jsonResponse = new JSONObject(response);
                     String success = jsonResponse.optString("success");
 
                     if (success.equals("true")) {
                         // Registro exitoso
+
+                        // Guarda los datos de inicio de sesión en las SharedPreferences
+                        SharedPreferences sharedPreferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString(KEY_USERNAME, correo);
+                        editor.putString(KEY_PASSWORD, contrasena);
+                        editor.apply();
+
                         Intent intent = new Intent(getApplicationContext(), Principal.class);
                         startActivity(intent);
                         finish();
-
                     } else {
                         // Error al registrar el usuario
+
+                        // Elimina los datos de inicio de sesión guardados en las SharedPreferences
+                        SharedPreferences sharedPreferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.remove(KEY_USERNAME);
+                        editor.remove(KEY_PASSWORD);
+                        editor.apply();
+
                         Toast.makeText(MainActivity.this, "Error al registrar el usuario", Toast.LENGTH_SHORT).show();
                         // Opcional: Restablecer los campos del formulario
                     }
@@ -105,8 +129,6 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                     Toast.makeText(MainActivity.this, "Error al procesar la respuesta del servidor", Toast.LENGTH_SHORT).show();
                 }
-
-
             }
         }, new Response.ErrorListener() {
             @Override
@@ -127,5 +149,4 @@ public class MainActivity extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
     }
-
 }

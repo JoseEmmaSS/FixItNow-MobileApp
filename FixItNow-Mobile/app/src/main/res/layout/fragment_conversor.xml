@@ -1,40 +1,75 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- fragment_conversor.xml -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tvTimer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="24sp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="32dp"
-        android:text="00:00:00" />
+    <!-- Agrega aquí tus vistas y elementos de diseño según tus necesidades -->
 
-    <Button
-        android:id="@+id/btnStart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Start"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="16dp" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/btnStop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Stop"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="8dp" />
+        <FrameLayout
+            android:id="@+id/fragmentContainerview"
+            android:layout_width="412dp"
+            android:layout_height="527dp"
+            android:layout_weight="1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0"
+            tools:layout_editor_absoluteX="-3dp" />
 
-    <Button
-        android:id="@+id/btnReset"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Reset"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="8dp" />
+        <Button
+            android:id="@+id/volumenButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="96dp"
+            android:onClick="irVolu"
+            android:text="Volumen"
+            app:layout_constraintBottom_toTopOf="@+id/pesoButton"
+            app:layout_constraintEnd_toStartOf="@+id/longitudButton"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.659" />
 
-</LinearLayout>
+        <Button
+            android:id="@+id/temperaturaButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="56dp"
+            android:layout_marginBottom="20dp"
+            android:onClick="irTemp"
+            android:text="Temperatura"
+            app:layout_constraintBottom_toTopOf="@+id/fragmentContainerview"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <Button
+            android:id="@+id/pesoButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            android:onClick="irPeso"
+            android:text="Peso"
+            app:layout_constraintBottom_toTopOf="@+id/fragmentContainerview"
+            app:layout_constraintEnd_toStartOf="@+id/temperaturaButton" />
+
+        <Button
+            android:id="@+id/longitudButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="80dp"
+            android:onClick="irLong"
+            android:text="Longitud"
+            app:layout_constraintBottom_toTopOf="@+id/temperaturaButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.659" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</RelativeLayout>

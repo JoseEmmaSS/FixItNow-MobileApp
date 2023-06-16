@@ -45,7 +45,7 @@ public class Recuperar extends AppCompatActivity {
                 if (TextUtils.isEmpty(correo)) {
                     Toast.makeText(Recuperar.this, "Por favor, completa todos los campos", Toast.LENGTH_SHORT).show();
                 } else {
-                    registrarUsuario("http://192.168.0.7/phpconex/Recuperarcontrasena.php", correo);
+                    registrarUsuario("http://192.168.0.9/phpconex/Recuperarcontrasena.php", correo);
                 }
             }
         });
