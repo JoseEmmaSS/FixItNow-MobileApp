@@ -4,10 +4,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +25,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -28,15 +39,20 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ProfileFragment extends Fragment {
 
     private static final String PHP_URL = "http://192.168.0.10/phpconex/Extraer.php";
+
+    private static final String PHP_ACTUALIZAR = "http://192.168.0.10/phpconex/Actualizar.php";
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_IMAGE_PICK = 2;
 
@@ -46,7 +62,10 @@ public class ProfileFragment extends Fragment {
     private EditText telefonoEditText;
     private EditText emailEditText;
     private Button changePhotoButton;
+    private Button updateButton;
 
+    String foto="A";
+    String id="0";
     private Uri selectedImageUri;
 
     @Nullable
@@ -60,6 +79,7 @@ public class ProfileFragment extends Fragment {
         telefonoEditText = view.findViewById(R.id.telefonoEditText);
         emailEditText = view.findViewById(R.id.emailEditText);
         changePhotoButton = view.findViewById(R.id.changePhotoButton);
+        updateButton = view.findViewById(R.id.updateButton);
 
         // Obtén el nombre de usuario guardado en las SharedPreferences
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(MainActivity.PREF_NAME, Context.MODE_PRIVATE);
@@ -68,11 +88,20 @@ public class ProfileFragment extends Fragment {
         // Enviar la consulta al archivo PHP
         sendQueryToPHP(correo);
 
+        usernameEditText.setText(MainActivity.KEY_USERNAME);
+        //nameEditText.setText(MainActivity.KEY_);
+
         // Asignar un listener al botón de cambio de foto
         changePhotoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openImagePicker();
+            }
+        });
+        updateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                actualizarUsuario(PHP_ACTUALIZAR,  nameEditText.getText().toString(), usernameEditText.getText().toString(), emailEditText.getText().toString(), telefonoEditText.getText().toString());
             }
         });
 
@@ -81,6 +110,12 @@ public class ProfileFragment extends Fragment {
 
     private void sendQueryToPHP(String correo) {
         String url = PHP_URL + "?correo=" + correo;
+
+        // Ejecutar la tarea asíncrona para enviar la consulta y recibir la respuesta
+        new QueryTask().execute(url);
+    }
+    private void sendFotoToPHP(String correo) {
+        String url = PHP_ACTUALIZAR + "?correo=" + correo;
 
         // Ejecutar la tarea asíncrona para enviar la consulta y recibir la respuesta
         new QueryTask().execute(url);
@@ -101,17 +136,81 @@ public class ProfileFragment extends Fragment {
                 // La imagen ha sido seleccionada desde la galería
                 Uri imageUri = data.getData();
 
-                // Carga la imagen en el ImageView utilizando Picasso
-                Picasso.get().load(imageUri).into(profileImageView);
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                Bitmap bitmap = null;
+                try {
+                    bitmap = MediaStore.Images.Media.getBitmap(this.getContext().getContentResolver(), imageUri);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
 
-                // Guarda la URI de la imagen seleccionada para su posterior uso (por ejemplo, enviarla al servidor)
-                selectedImageUri = imageUri;
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+                byte[] imageBytes = byteArrayOutputStream.toByteArray();
+                foto = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+
+                imageBytes = Base64.decode(foto, Base64.DEFAULT);
+                Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+                profileImageView.setImageBitmap(decodedImage);
+
             } else if (requestCode == REQUEST_IMAGE_CAPTURE) {
                 // La foto ha sido tomada con la cámara
                 // Aquí puedes obtener la imagen capturada desde el intent de la cámara y realizar las operaciones necesarias
             }
         }
     }
+
+    private void actualizarUsuario(String URL, final String name, final String user, final String correo, final String telefono) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("Respuesta", response); // Imprime la respuesta en el registro de Log
+
+                // Muestra la respuesta en un Toast
+                Toast.makeText(getActivity(), "Respuesta: " + response, Toast.LENGTH_SHORT).show();
+
+                try {
+                    JSONObject jsonResponse = new JSONObject(response);
+                    String success = jsonResponse.optString("success");
+
+                    if (success.equals("true")) {
+                        // Registro exitoso
+                        Toast.makeText(getActivity(), "Usuario actualizado correctamente", Toast.LENGTH_SHORT).show();
+
+                    } else {
+                        // Error al registrar el usuario
+                        Toast.makeText(getActivity(), "Error al actualizar el usuario", Toast.LENGTH_SHORT).show();
+                        // Opcional: Restablecer los campos del formulario
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(getActivity(), "Error al procesar la respuesta del servidor", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getActivity(), "Ocurrió un error en la solicitud", Toast.LENGTH_SHORT).show();
+            }
+        }) {
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> parametros = new HashMap<String, String>();
+                parametros.put("id", id);
+                parametros.put("name", name);
+                parametros.put("username", user);
+                parametros.put("foto", foto);
+                parametros.put("correo", correo);
+                parametros.put("telefono", telefono);
+                return parametros;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        requestQueue.add(stringRequest);
+    }
+
 
     private class QueryTask extends AsyncTask<String, Void, String> {
 
@@ -162,11 +261,16 @@ public class ProfileFragment extends Fragment {
                     JSONObject jsonObject = jsonArray.getJSONObject(0);
 
                     // Obtener los valores del perfil
+                    id = jsonObject.getString("id");
                     String username = jsonObject.getString("user");
                     String name = jsonObject.getString("name");
                     String telefono = jsonObject.getString("telefono");
                     String email = jsonObject.getString("correo");
-                    String foto = jsonObject.getString("foto");
+                    String fotos = jsonObject.getString("fotoPerfil");
+
+                    byte[] imageBytes = Base64.decode(fotos, Base64.DEFAULT);
+                    Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+                    profileImageView.setImageBitmap(decodedImage);
 
                     // Establecer los valores en los campos de la interfaz de usuario
                     usernameEditText.setText(username);
@@ -174,8 +278,6 @@ public class ProfileFragment extends Fragment {
                     telefonoEditText.setText(telefono);
                     emailEditText.setText(email);
 
-                    // Carga la imagen de perfil utilizando Picasso
-                    Picasso.get().load(foto).into(profileImageView);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

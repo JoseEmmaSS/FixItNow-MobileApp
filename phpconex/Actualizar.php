@@ -1,40 +1,44 @@
 <?php
+error_reporting(0);
+	ini_set('display_errors', '1');
 // Obtén los parámetros enviados por GET
-$username = $_GET['username'];
-$name = $_GET['name'];
-$telefono = $_GET['telefono'];
-$correo = $_GET['correo'];
-$foto = $_GET['foto'];
 
-// Realiza la lógica de actualización en la base de datos
-// Aquí deberías utilizar las funciones y consultas adecuadas para actualizar los datos en tu base de datos
+header('Content-Type: application/json');
 
-// Ejemplo de actualización utilizando MySQLi
-// Establece los datos de conexión a tu base de datos
 $servername = "localhost";
 $username = "root";
 $password = "";
 $database = "fixinow";
 
 
-// Crea una conexión a la base de datos
-$conn = mysqli_connect($servername, $username, $password, $database);
+// Crear una conexión
+$conexion = new mysqli($servername, $username, $password, $database);
+
+$id 		= $_POST['id'];
+$user 		= $_POST['username'];
+$name 		= $_POST['name'];
+$telefono 	= $_POST['telefono'];
+$correo 	= $_POST['correo'];
+$foto 		= $_POST['foto'];
 
 // Verifica si la conexión fue exitosa
-if (!$conn) {
+if (!$conexion) {
     die("Error de conexión: " . mysqli_connect_error());
 }
-
 // Construye la consulta de actualización
-$sql = "UPDATE usuarios SET name='$name', telefono='$telefono', correo='$correo', rutaFoto='$foto' WHERE user='$username'";
-
-// Ejecuta la consulta
-if (mysqli_query($conn, $sql)) {
-    echo "Actualización exitosa";
+$sentencia = $conexion->prepare("UPDATE usuarios SET name=?, telefono=?,correo=?, fotoPerfil=? WHERE id=?");
+$sentencia->bind_param('sssss', $name, $telefono, $correo, $foto, $id);
+if ($sentencia->execute()) {
+	$response = array(
+		'success' => 'true',
+		'message' => 'Usuario actualizado correctamente'
+	);
 } else {
-    echo "Error en la actualización: " . mysqli_error($conn);
+	// Error al insertar el usuario
+	$response = array(
+		'success' => 'false',
+		'message' => 'Error al actualizar el usuario'
+	);
 }
-
-// Cierra la conexión a la base de datos
-mysqli_close($conn);
+echo json_encode($response);
 ?>

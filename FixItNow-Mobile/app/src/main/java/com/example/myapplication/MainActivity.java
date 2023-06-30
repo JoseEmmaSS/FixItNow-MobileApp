@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
                 if (correo.isEmpty() || contrasena.isEmpty()) {
                     Toast.makeText(MainActivity.this, "Por favor, ingresa correo y contraseña", Toast.LENGTH_SHORT).show();
                 } else {
-                    validarUsuario("http://192.168.0.7/phpconex/validar_usuario.php", correo, contrasena);
+                    validarUsuario("http://192.168.0.10/phpconex/validar_usuario.php", correo, contrasena);
                 }
             }
         });
