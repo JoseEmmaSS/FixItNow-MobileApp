@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         String savedPassword = sharedPreferences.getString(KEY_PASSWORD, "");
 
         if (!savedUsername.isEmpty() && !savedPassword.isEmpty()) {
-            validarUsuario("http://192.168.0.7/phpconex/validar_usuario.php", savedUsername, savedPassword);
+            validarUsuario("http://192.168.0.10/phpconex/validar_usuario.php", savedUsername, savedPassword);
         }
 
         iniciar_sesion.setOnClickListener(new View.OnClickListener() {
