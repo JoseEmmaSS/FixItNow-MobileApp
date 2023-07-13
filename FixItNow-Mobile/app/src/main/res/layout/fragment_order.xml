@@ -1,18 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center">
+    android:padding="16dp">
 
     <TextView
-        android:id="@+id/titleTextView"
+        android:id="@+id/textViewDescripcion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Descripción:" />
+
+    <EditText
+        android:id="@+id/editTextDescripcion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:lines="4"
+        android:minLines="4"
+        android:maxLines="10"
+        android:gravity="top" />
+
+    <TextView
+        android:id="@+id/textViewNombre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Nombre:" />
+
+    <EditText
+        android:id="@+id/editTextNombre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text" />
+
+    <TextView
+        android:id="@+id/textViewPrecioEstimado"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Precio Estimado:" />
+
+    <EditText
+        android:id="@+id/editTextPrecioEstimado"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal" />
+
+    <TextView
+        android:id="@+id/textViewFotos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Fotos:" />
+
+    <Button
+        android:id="@+id/buttonSubirFotos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="36sp"
-        android:textColor="@color/black"
-        android:layout_marginBottom="16dp"
-        android:text="Orden" />
+        android:text="Subir Fotos" />
 
-    <!-- Aquí puedes agregar el resto de los elementos de tu diseño para el fragmento Orden -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewFotos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp" />
 
 </LinearLayout>

@@ -5,8 +5,8 @@ $username = "root";
 $password = "";
 $database = "fixinow";
 
-// Obtén el valor del correo almacenado en el query parameter
-$correo = $_GET['correo'];
+// Obtén el valor del ID de usuario almacenado en el query parameter
+$userId = $_GET['id'];
 
 // Crear conexión
 $conn = new mysqli($servername, $username, $password, $database);
@@ -17,10 +17,10 @@ if ($conn->connect_error) {
 }
 
 // Escapar caracteres especiales para evitar SQL injection
-$correo = $conn->real_escape_string($correo);
+$userId = $conn->real_escape_string($userId);
 
 // Consulta SQL
-$sql = "SELECT * FROM usuarios WHERE correo = '$correo'";
+$sql = "SELECT * FROM usuarios WHERE id = '$userId'";
 
 // Ejecutar consulta y obtener resultados
 $result = $conn->query($sql);

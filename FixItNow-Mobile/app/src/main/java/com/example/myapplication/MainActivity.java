@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     Button iniciar_sesion;
 
     public static final String PREF_NAME = "LoginPrefs";
+    public static final String KEY_USERID = "username";
     public static final String KEY_USERNAME = "username";
     public static final String KEY_PASSWORD = "password";
 
@@ -98,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     JSONObject jsonResponse = new JSONObject(response);
                     String success = jsonResponse.optString("success");
-
+                    String userId = jsonResponse.optString("id");
                     if (success.equals("true")) {
                         // Registro exitoso
 
@@ -107,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString(KEY_USERNAME, correo);
                         editor.putString(KEY_PASSWORD, contrasena);
+                        editor.putString("KEY_USER_ID", userId);
                         editor.apply();
 
                         Intent intent = new Intent(getApplicationContext(), Principal.class);

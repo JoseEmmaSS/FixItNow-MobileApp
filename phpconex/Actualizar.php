@@ -1,44 +1,39 @@
 <?php
-error_reporting(0);
-	ini_set('display_errors', '1');
-// Obtén los parámetros enviados por GET
-
-header('Content-Type: application/json');
-
 $servername = "localhost";
 $username = "root";
 $password = "";
 $database = "fixinow";
 
-
 // Crear una conexión
 $conexion = new mysqli($servername, $username, $password, $database);
 
-$id 		= $_POST['id'];
-$user 		= $_POST['username'];
-$name 		= $_POST['name'];
-$telefono 	= $_POST['telefono'];
-$correo 	= $_POST['correo'];
-$foto 		= $_POST['foto'];
-
-// Verifica si la conexión fue exitosa
-if (!$conexion) {
-    die("Error de conexión: " . mysqli_connect_error());
-}
-// Construye la consulta de actualización
-$sentencia = $conexion->prepare("UPDATE usuarios SET name=?, telefono=?,correo=?, fotoPerfil=? WHERE id=?");
-$sentencia->bind_param('sssss', $name, $telefono, $correo, $foto, $id);
-if ($sentencia->execute()) {
-	$response = array(
-		'success' => 'true',
-		'message' => 'Usuario actualizado correctamente'
-	);
+// Verificar la conexión
+if ($conexion->connect_error) {
+    die("Error al conectar con la base de datos: " . $conexion->connect_error);
 } else {
-	// Error al insertar el usuario
-	$response = array(
-		'success' => 'false',
-		'message' => 'Error al actualizar el usuario'
-	);
+    echo "Conexión exitosa";
 }
-echo json_encode($response);
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $imagen = $_POST['foto'];
+    $nombreFoto = $_POST['nombrefoto'];
+    $nombre = $_POST['nombre'];
+    $usuario = $_POST['usuario'];
+    $telefono = $_POST['telefono'];
+    $correo = $_POST['correo'];
+
+    // RUTA DONDE SE GUARDARAN LAS IMAGENES
+    $path = "Fotos/" . $nombreFoto . ".png";
+    $actualpath = "http://localhost/phpconex/" . $path;
+    $sql = "INSERT INTO usuarios (name, user, correo, telefono, foto) VALUES ('$nombre', '$usuario', '$correo', '$telefono', '$actualpath')";
+
+    if (mysqli_query($conexion, $sql)) {
+        file_put_contents($path, base64_decode($imagen));
+
+        echo "SE SUBIÓ EXITOSAMENTE";
+        mysqli_close($conexion);
+    } else {
+        echo "Error: " . mysqli_error($conexion);
+    }
+}
 ?>

@@ -21,13 +21,14 @@ $sentencia->execute();
 $resultado = $sentencia->get_result();
 if ($fila = $resultado->fetch_assoc()) {
     $response = array(
-        'success' => 'true',
-        'message' => 'Usuario autenticado correctamente'
+        'success' => true,
+        'message' => 'Usuario autenticado correctamente',
+        'id' => $fila['id']// Incluye los datos de la fila en la respuesta
     );
     echo json_encode($response, JSON_UNESCAPED_UNICODE);
 } else {
     $response = array(
-        'success' => 'false',
+        'success' => false,
         'message' => 'Correo o contraseña incorrectos'
     );
     echo json_encode($response, JSON_UNESCAPED_UNICODE);

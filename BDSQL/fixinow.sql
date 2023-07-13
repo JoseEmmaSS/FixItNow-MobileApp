@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 29, 2023 at 04:38 AM
+-- Generation Time: Jul 13, 2023 at 08:35 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -33,35 +33,18 @@ CREATE TABLE `usuarios` (
   `user` varchar(50) NOT NULL,
   `psw` varchar(50) NOT NULL,
   `correo` varchar(50) NOT NULL,
-  `telefono` int(50) NOT NULL
+  `telefono` int(50) NOT NULL,
+  `foto` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `usuarios`
 --
 
-INSERT INTO `usuarios` (`id`, `name`, `user`, `psw`, `correo`, `telefono`) VALUES
-(1, 'Juan Perez', 'juan', '123', 'juan', 123456789);
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `usuarios`
---
-ALTER TABLE `usuarios`
-  ADD PRIMARY KEY (`id`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `usuarios`
---
-ALTER TABLE `usuarios`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+INSERT INTO `usuarios` (`id`, `name`, `user`, `psw`, `correo`, `telefono`, `foto`) VALUES
+(1, 'Juan Perez', 'juan', '123', 'juan', 123456789, ''),
+(0, '', '', '', '', 0, 'http://localhost/phpconex/Fotos/.png'),
+(0, '', '', '', 'juan', 123456789, 'http://localhost/phpconex/Fotos/.png');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

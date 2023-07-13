@@ -1,50 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/profileImageView"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:scaleType="centerCrop"
-        android:layout_marginBottom="16dp" />
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_weight="1" />
 
     <Button
-        android:id="@+id/changePhotoButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Cambiar foto" />
-
-    <EditText
-        android:id="@+id/usernameEditText"
+        android:id="@+id/btnBuscar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nombre de usuario" />
+        android:text="Elegir Imagen" />
 
     <EditText
-        android:id="@+id/nameEditText"
+        android:id="@+id/Nombrefoto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nombre" />
-
+        android:hint="Ingresa un Nombre para la foto" />
     <EditText
-        android:id="@+id/telefonoEditText"
+        android:id="@+id/Nombre"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Número de teléfono" />
-
+        android:hint="Ingresa un nombre" />
     <EditText
-        android:id="@+id/emailEditText"
+        android:id="@+id/Usuario"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Correo electrónico" />
-
+        android:hint="Ingresa un Usuario" />
+    <EditText
+        android:id="@+id/Telefono"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Ingresa un Telefono" />
+    <EditText
+        android:id="@+id/Correo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Ingresa un Correo" />
     <Button
-        android:id="@+id/updateButton"
-        android:layout_width="wrap_content"
+        android:id="@+id/btnSubir"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Actualizar" />
+        android:text="Subir Imagen" />
 
 </LinearLayout>
