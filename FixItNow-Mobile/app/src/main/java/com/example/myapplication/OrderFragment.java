@@ -1,42 +1,37 @@
 package com.example.myapplication;
 
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import com.example.myapplication.R;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import android.widget.ListView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
+import java.util.ArrayList;
 
 public class OrderFragment extends Fragment {
+    private ListView listView;
+    private CustomAdapter adapter;
 
-    public OrderFragment() {
-        // Required empty public constructor
-    }
-
+    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_order, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_order, container, false);
 
-        // Get a reference to the BottomNavigationView
-        BottomNavigationView bottomNavigationView = getActivity().findViewById(R.id.bottomNavigationView);
+        listView = view.findViewById(R.id.listView);
+        adapter = new CustomAdapter(getActivity());
 
-        // Set the selected item in the BottomNavigationView to Order
-        if (bottomNavigationView != null) {
-            bottomNavigationView.setSelectedItemId(R.id.bottom_order);
-        }
+        // Asigna el adaptador a la lista
+        listView.setAdapter(adapter);
 
-        // Get a reference to the title TextView
-        TextView titleTextView = rootView.findViewById(R.id.titleTextView);
+        // Agrega algunos elementos de ejemplo
+        adapter.addItem("Elemento 1");
+        adapter.addItem("Elemento 2");
+        adapter.addItem("Elemento 3");
 
-        // Set the title text to "Orden"
-        titleTextView.setText("Orden");
-
-        return rootView;
+        return view;
     }
 }

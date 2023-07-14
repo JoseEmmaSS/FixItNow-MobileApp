@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,11 +51,11 @@ public class ProfileFragment extends Fragment {
 
     private static final String KEY_IMAGE = "foto";
     private static final String KEY_NOMBRE_FOTO = "nombrefoto";
-    private static final String KEY_NOMBRE = "nombre";
-    private static final String KEY_USUARIO = "usuario";
+    private static final String KEY_NOMBRE = "name";
+    private static final String KEY_USUARIO = "user";
     private static final String KEY_TELEFONO = "telefono";
     private static final String KEY_CORREO = "correo";
-
+    private static final String KEY_id = "id";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
@@ -115,21 +116,26 @@ public class ProfileFragment extends Fragment {
         }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                String imagen = getStringImagen(bitmap);
-                String nombreFoto = etNombrefoto.getText().toString().trim();
-                String nombre = etNombre.getText().toString().trim();
-                String usuario = etUsuario.getText().toString().trim();
+                String foto = getStringImagen(bitmap);
+                String nombrefoto = etNombrefoto.getText().toString().trim();
+                String name = etNombre.getText().toString().trim();
+                String user = etUsuario.getText().toString().trim();
                 String telefono = etTelefono.getText().toString().trim();
                 String correo = etCorreo.getText().toString().trim();
+                Log.d("CAMPOS", "Nombre: " + name + ", Usuario: " + user);
 
+                // Obtén el ID de usuario guardado en las SharedPreferences
+                SharedPreferences sharedPreferences = getActivity().getSharedPreferences(MainActivity.PREF_NAME, Context.MODE_PRIVATE);
+                String userId = sharedPreferences.getString("KEY_USER_ID", "");
+                //mandar archivos
                 Map<String, String> params = new HashMap<>();
-                params.put(KEY_IMAGE, imagen);
-                params.put(KEY_NOMBRE_FOTO, nombreFoto);
-                params.put(KEY_NOMBRE, nombre);
-                params.put(KEY_USUARIO, usuario);
+                params.put(KEY_IMAGE, foto);
+                params.put(KEY_NOMBRE_FOTO, nombrefoto);
+                params.put(KEY_NOMBRE, name);
+                params.put(KEY_USUARIO, user);
                 params.put(KEY_TELEFONO, telefono);
                 params.put(KEY_CORREO, correo);
-
+                params.put(KEY_id, userId);
                 return params;
             }
         };
@@ -179,17 +185,20 @@ public class ProfileFragment extends Fragment {
 
                             if (jsonArray.length() > 0) {
                                 JSONObject jsonObject = jsonArray.getJSONObject(0);
-                                String nombreFoto = jsonObject.optString(KEY_NOMBRE_FOTO);
-                                String nombre = jsonObject.optString(KEY_NOMBRE);
+                                String foto = jsonObject.optString(KEY_IMAGE);
+                                String name = jsonObject.optString(KEY_NOMBRE);
                                 String usuario = jsonObject.optString(KEY_USUARIO);
                                 String telefono = jsonObject.optString(KEY_TELEFONO);
                                 String correo = jsonObject.optString(KEY_CORREO);
 
-                                etNombrefoto.setText(nombreFoto);
-                                etNombre.setText(nombre);
+                                etNombrefoto.setText(foto);
+                                etNombre.setText(name);
                                 etUsuario.setText(usuario);
                                 etTelefono.setText(telefono);
                                 etCorreo.setText(correo);
+                                // Mostrar la respuesta del servidor en un Toast
+                                Toast.makeText(getContext(), "Respuesta del servidor: " + response, Toast.LENGTH_SHORT).show();
+
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -207,4 +216,5 @@ public class ProfileFragment extends Fragment {
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         requestQueue.add(stringRequest);
     }
+
 }
