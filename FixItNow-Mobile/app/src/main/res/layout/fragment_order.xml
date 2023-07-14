@@ -19,6 +19,13 @@
         android:layout_marginBottom="16dp"
         android:text="Agregar" />
 
+    <FrameLayout
+        android:id="@+id/fragmentContainerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        tools:layout_editor_absoluteX="-3dp" />
+
     <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"
