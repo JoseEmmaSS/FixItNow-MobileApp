@@ -38,7 +38,7 @@ public class OrderFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_order, container, false);
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences(MainActivity.PREF_NAME, Context.MODE_PRIVATE);
         String userId = sharedPreferences.getString("KEY_USER_ID", "");
-        String consulta_URL = "http://192.168.0.10/phpconex/consultarservicio.php?id=" + userId;
+        String consulta_URL = "http://192.168.0.9/phpconex/consultarservicio.php?id=" + userId;
 
         listView = view.findViewById(R.id.listView);
         adapter = new CustomAdapter(requireContext());
