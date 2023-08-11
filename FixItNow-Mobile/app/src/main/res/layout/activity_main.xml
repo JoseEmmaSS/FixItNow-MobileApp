@@ -20,6 +20,15 @@
        android:gravity="center"
        >
 
+      <TextView
+          android:id="@+id/textView10"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:gravity="center"
+          android:text="Login usuarios"
+          android:textColor="#000000"
+          android:textSize="34sp" />
+
       <EditText
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
@@ -52,16 +61,18 @@
           android:textColorHint="#ccc"
           android:textColor="@color/teal_200"
           android:inputType="textPassword"/>
+
       <TextView
           android:id="@+id/rec_contrasena"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:textColor="@color/colorprimarydark"
-          android:gravity="end"
+          android:layout_width="354dp"
+          android:layout_height="33dp"
           android:layout_marginLeft="20dp"
           android:layout_marginRight="25dp"
           android:layout_marginBottom="30dp"
-          android:text="¿Olvidaste tu contraseña?"/>
+          android:gravity="end"
+          android:text="¿Olvidaste tu contraseña?"
+          android:textColor="@color/colorprimarydark" />
+
       <Button
           android:id="@+id/iniciar_sesion"
           android:layout_width="match_parent"
@@ -74,18 +85,7 @@
           android:textColor="#fff"
           android:textSize="16sp"
           android:elevation="5dp"/>
-      <Button
-          android:id="@+id/google_sign_in_button"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_marginBottom="30dp"
-          android:layout_marginLeft="20dp"
-          android:layout_marginRight="20dp"
-          android:background="@drawable/btn_fondo_color"
-          android:text="Inciar sesión google"
-          android:textColor="#fff"
-          android:textSize="16sp"
-          android:elevation="5dp"/>
+
       <LinearLayout
           android:layout_width="match_parent"
           android:orientation="horizontal"
@@ -94,6 +94,14 @@
           android:gravity="center"
           android:layout_height="wrap_content">
 
+         <TextView
+             android:id="@+id/Empresas"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="¿Eres una empresa?"
+             android:textSize="16sp"
+             android:textColor="@color/colorprimarydark"
+             />
          <TextView
              android:id="@+id/crearCuenta"
              android:layout_width="wrap_content"

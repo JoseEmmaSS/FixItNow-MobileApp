@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -25,8 +26,11 @@ public class Principal extends AppCompatActivity implements NavigationView.OnNav
     private DrawerLayout drawerLayout;
 
     private Fragment fragmentHome;
-    private Fragment fragmentOrder;
+    private Fragment fragmentSolicitud;
+
+
     private Fragment fragmentProfile;
+    private Fragment resultsFragment;
 
     private Fragment activeFragment;
 
@@ -52,13 +56,15 @@ public class Principal extends AppCompatActivity implements NavigationView.OnNav
 
         // Inicializar fragmentos
         fragmentHome = new HomeFragment();
-        fragmentOrder = new OrderFragment();
+        fragmentSolicitud = new SolicitudFragment();
         fragmentProfile = new ProfileFragment();
+        resultsFragment = new ResultsFragment();
 
         // Establecer el fragmento activo inicialmente
         activeFragment = fragmentHome;
 
-        // Configurar el BottomNavigationView
+
+// Configurar el BottomNavigationView
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -68,9 +74,11 @@ public class Principal extends AppCompatActivity implements NavigationView.OnNav
                         switchFragment(fragmentHome);
                         return true;
                     case R.id.bottom_order:
-                        switchFragment(fragmentOrder);
+                        removeFragmentFromContainer(resultsFragment); // Llama al método para remover ResultsFragment del container
+                        switchFragment(fragmentSolicitud);
                         return true;
                     case R.id.bottom_profile:
+                        removeFragmentFromContainer(resultsFragment); // Llama al método para remover ResultsFragment del container
                         switchFragment(fragmentProfile);
                         return true;
                 }
@@ -78,9 +86,14 @@ public class Principal extends AppCompatActivity implements NavigationView.OnNav
             }
         });
 
-        // Mostrar el fragmento inicial
-        getSupportFragmentManager().beginTransaction().add(R.id.fragmentContainer, fragmentHome).commit();
-    }
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction().add(R.id.fragmentContainer, fragmentHome).commit();
+            activeFragment = fragmentHome;
+        }
+
+    } // Agrega este corchete de cierre
+
+
 
     @Override
     public void onBackPressed() {
@@ -92,17 +105,33 @@ public class Principal extends AppCompatActivity implements NavigationView.OnNav
     }
 
     private void switchFragment(Fragment fragment) {
-        if (fragment != null) {
+        if (fragment != null && fragment != activeFragment) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+            // Remover el fragmento activo actual
+            fragmentTransaction.remove(activeFragment);
+
             if (!fragment.isAdded()) {
-                fragmentTransaction.hide(activeFragment).add(R.id.fragmentContainer, fragment).commit();
-            } else {
-                fragmentTransaction.hide(activeFragment).show(fragment).commit();
+                fragmentTransaction.add(R.id.fragmentContainer, fragment);
             }
+
+            fragmentTransaction.addToBackStack(null);  // Limpia la pila de retroceso
+            fragmentTransaction.commit();
             activeFragment = fragment;
         }
     }
+
+    private void removeFragmentFromContainer(Fragment fragment) {
+        if (fragment != null) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fragmentContainer, new EmptyFragment());
+            fragmentTransaction.commit();
+        }
+    }
+
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {

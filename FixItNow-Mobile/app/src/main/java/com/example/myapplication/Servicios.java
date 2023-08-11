@@ -59,7 +59,7 @@ public class Servicios extends AppCompatActivity {
         String numeroTelefono = etNumeroTelefono.getText().toString();
 
         // URL del archivo PHP en el servidor
-        String url = "http://192.168.0.10/phpconex/AgregarServicio.php";
+        String url = "http://192.168.0.9/phpconex/AgregarServicio.php";
 
         // Crear una solicitud HTTP POST utilizando Volley
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
@@ -81,12 +81,14 @@ public class Servicios extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 SharedPreferences sharedPreferences = getSharedPreferences(MainActivity.PREF_NAME, Context.MODE_PRIVATE);
                 String userId = sharedPreferences.getString("KEY_USER_ID", "");
+                String username = sharedPreferences.getString("KEY_USER_NAME", "");
                 // Parámetros para enviar al archivo PHP
                 Map<String, String> params = new HashMap<>();
                 params.put("tipo_servicio", tipoServicio);
                 params.put("costo_servicio", costoServicio);
                 params.put("numero_telefono", numeroTelefono);
                 params.put("idusuario", userId);
+                params.put("empresa", username);
                 return params;
             }
         };

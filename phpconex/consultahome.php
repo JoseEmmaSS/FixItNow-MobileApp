@@ -1,6 +1,4 @@
 <?php
-// Obtener el término de búsqueda del usuario
-$termino_busqueda = $_GET['termino_busqueda'];
 
 // Establecer los datos de conexión a la base de datos
 $host = 'localhost';
@@ -13,36 +11,49 @@ $conexion = mysqli_connect($host, $usuario, $contrasena, $base_de_datos);
 
 // Verificar la conexión
 if (!$conexion) {
-    die("Error de conexión: " . mysqli_connect_error());
+    die('Error de conexión: ' . mysqli_connect_error());
 }
 
-// Escapar y sanitizar el término de búsqueda para evitar inyección SQL
-$termino_busqueda = mysqli_real_escape_string($conexion, $termino_busqueda);
+// Obtener el parámetro de búsqueda de la URL (q)
+$busqueda = $_GET['q'];
 
-// Ejecutar la consulta SQL para buscar coincidencias parciales
-$query = "SELECT * FROM Empresas WHERE nombre LIKE '%" . $termino_busqueda . "%' OR servicio LIKE '%" . $termino_busqueda . "%'";
-$resultado = mysqli_query($conexion, $query);
+// Escapar el parámetro de búsqueda para evitar inyección SQL
+$busqueda = mysqli_real_escape_string($conexion, $busqueda);
 
-// Verificar si se encontraron resultados
+// Construir la consulta SQL
+$sql = "SELECT * FROM servicios WHERE tipo_servicio LIKE '%$busqueda%'";
+
+// Ejecutar la consulta
+$resultado = mysqli_query($conexion, $sql);
+
+// Verificar si hubo resultados
 if (mysqli_num_rows($resultado) > 0) {
     // Crear un array para almacenar los resultados
-    $resultados = array();
+    $resultados_array = array();
 
     // Recorrer los resultados y agregarlos al array
     while ($fila = mysqli_fetch_assoc($resultado)) {
-        $resultado_actual = array(
-            'nombre' => $fila['nombre'],
-            'servicio' => $fila['servicio']
-        );
-        $resultados[] = $resultado_actual;
+        $resultados_array[] = $fila;
     }
 
-    // Imprimir los resultados como una cadena JSON
-    echo json_encode($resultados);
+    // Crear un array de respuesta
+    $response = array(
+        'success' => true,
+        'results' => $resultados_array
+    );
 } else {
-    echo "No se encontraron resultados.";
+    // No se encontraron resultados
+    $response = array(
+        'success' => false,
+        'message' => 'No se encontraron resultados'
+    );
 }
 
 // Cerrar la conexión a la base de datos
 mysqli_close($conexion);
+
+// Devolver la respuesta en formato JSON
+header('Content-Type: application/json');
+echo json_encode($response);
+
 ?>

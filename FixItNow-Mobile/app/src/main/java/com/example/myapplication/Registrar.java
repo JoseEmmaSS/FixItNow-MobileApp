@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -28,6 +29,7 @@ import java.util.Map;
 public class Registrar extends AppCompatActivity {
     EditText et_nombre, et_usuario, et_contrasena,et_confirmarcontra, et_correo, et_telefono;
     Button crear_cuenta;
+    private TextView crearCuentaEmpTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +43,14 @@ public class Registrar extends AppCompatActivity {
         et_telefono = findViewById(R.id.et_telefono);
         crear_cuenta = findViewById(R.id.crear_cuenta);
         et_confirmarcontra = findViewById(R.id.et_confirmarcontra);
-
+        crearCuentaEmpTextView = findViewById(R.id.Registroempresas);
+        crearCuentaEmpTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Registrar.this, LoginEmpresas.class);
+                startActivity(intent);
+            }
+        });
 
         crear_cuenta.setOnClickListener(new View.OnClickListener() {
             @Override

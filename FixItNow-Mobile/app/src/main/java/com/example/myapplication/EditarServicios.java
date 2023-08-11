@@ -48,7 +48,7 @@ public class EditarServicios extends AppCompatActivity {
         });
         String servicioId = getIntent().getStringExtra("servicioId");
 
-        String consultarServicioURL = "http://192.168.0.10/phpconex/ConsutarSerActualizar.php?servicioId=" + servicioId;
+        String consultarServicioURL = "http://192.168.0.9/phpconex/ConsutarSerActualizar.php?servicioId=" + servicioId;
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, consultarServicioURL,

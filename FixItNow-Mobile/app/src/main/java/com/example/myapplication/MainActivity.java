@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText et_correo, et_contrasena;
     private Button iniciar_sesion;
-    private TextView recContrasenaTextView, crearCuentaTextView;
+    private TextView recContrasenaTextView, crearCuentaTextView, Cambiarlogin;
 
     private boolean isBiometricAuthenticated = false;
 
@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         iniciar_sesion = findViewById(R.id.iniciar_sesion);
         recContrasenaTextView = findViewById(R.id.rec_contrasena);
         crearCuentaTextView = findViewById(R.id.crearCuenta);
-
+        Cambiarlogin = findViewById(R.id.Empresas);
         // Verifica si el dispositivo tiene el hardware y es compatible con la autenticación biométrica
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.USE_BIOMETRIC) == PackageManager.PERMISSION_GRANTED) {
@@ -101,7 +101,13 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
+        Cambiarlogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, Empresas.class);
+                startActivity(intent);
+            }
+        });
         crearCuentaTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -124,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
                     JSONObject jsonResponse = new JSONObject(response);
                     String success = jsonResponse.optString("success");
                     String userId = jsonResponse.optString("id");
+                    String username = jsonResponse.optString("name");
                     if (success.equals("true")) {
                         // Registro exitoso
 
@@ -133,6 +140,7 @@ public class MainActivity extends AppCompatActivity {
                         editor.putString(KEY_USERNAME, correo);
                         editor.putString(KEY_PASSWORD, contrasena);
                         editor.putString("KEY_USER_ID", userId);
+                        editor.putString("KEY_USER_NAME", username);
                         editor.putBoolean(KEY_DATA_STORED, true); // Marcar como almacenados
                         editor.apply();
 
@@ -184,11 +192,11 @@ public class MainActivity extends AppCompatActivity {
         BiometricPrompt biometricPrompt = new BiometricPrompt(this, executor, new BiometricPrompt.AuthenticationCallback() {
             @Override
             public void onAuthenticationError(int errorCode, CharSequence errString) {
-                SharedPreferences sharedPreferences = getSharedPreferences(MainActivity.PREF_NAME, MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.remove(MainActivity.KEY_USERNAME);
-                editor.remove(MainActivity.KEY_PASSWORD);
-                editor.apply();
+                //  SharedPreferences sharedPreferences = getSharedPreferences(MainActivity.PREF_NAME, MODE_PRIVATE);
+                //  SharedPreferences.Editor editor = sharedPreferences.edit();
+                // editor.remove(MainActivity.KEY_USERNAME);
+                // editor.remove(MainActivity.KEY_PASSWORD);
+                // editor.apply();
                 Toast.makeText(MainActivity.this, "Error de autenticación otro: " + errString, Toast.LENGTH_SHORT).show();
 
             }
@@ -212,11 +220,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onAuthenticationFailed() {
                 // Eliminar los datos de inicio de sesión guardados en las SharedPreferences del MainActivity
-                SharedPreferences sharedPreferences = getSharedPreferences(MainActivity.PREF_NAME, MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.remove(MainActivity.KEY_USERNAME);
-                editor.remove(MainActivity.KEY_PASSWORD);
-                editor.apply();
+                // SharedPreferences sharedPreferences = getSharedPreferences(MainActivity.PREF_NAME, MODE_PRIVATE);
+                //SharedPreferences.Editor editor = sharedPreferences.edit();
+                // editor.remove(MainActivity.KEY_USERNAME);
+                // editor.remove(MainActivity.KEY_PASSWORD);
+                //editor.apply();
 
                 Toast.makeText(MainActivity.this, "Error se cancelo ", Toast.LENGTH_SHORT).show();
                 // Opcional: Restablecer los campos del formulario

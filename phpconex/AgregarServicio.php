@@ -4,6 +4,7 @@ $tipoServicio = $_POST['tipo_servicio'];
 $costoServicio = $_POST['costo_servicio'];
 $numeroTelefono = $_POST['numero_telefono'];
 $idusuairo = $_POST['idusuario'];
+$empresa = $_POST['empresa'];
 // Conexión a la base de datos
 $servername = "localhost";
 $username = "root";
@@ -19,8 +20,8 @@ if ($conn->connect_error) {
 }
 
 // Preparar la consulta SQL para la inserción
-$sql = "INSERT INTO servicios (tipo_servicio, costo_servicio, numero_telefono, idusuario)
-        VALUES ('$tipoServicio', '$costoServicio', '$numeroTelefono', '$idusuairo')";
+$sql = "INSERT INTO servicios (empresa, tipo_servicio, costo_servicio, numero_telefono, idusuario)
+        VALUES ('$empresa', '$tipoServicio', '$costoServicio', '$numeroTelefono', '$idusuairo')";
 
 // Ejecutar la consulta
 if ($conn->query($sql) === TRUE) {
