@@ -92,7 +92,7 @@ public class Empresas extends AppCompatActivity {
                     Toast.makeText(Empresas.this, correo, Toast.LENGTH_SHORT).show();
                     Toast.makeText(Empresas.this, contrasena, Toast.LENGTH_SHORT).show();
                     // Perform the regular login authentication
-                    validarUsuario("http://192.168.0.9/phpconex/validar_empresa.php", correo, contrasena);
+                    validarUsuario("http://10.0.11.118/phpconex/validar_empresa.php", correo, contrasena);
                 }
             }
         });
@@ -217,7 +217,7 @@ public class Empresas extends AppCompatActivity {
                     Toast.makeText(Empresas.this, "Error de autenticación, intente de otro modo", Toast.LENGTH_SHORT).show();
                 } else {
                     // Luego utiliza los valores para enviarlos al servidor PHP
-                    validarUsuario("http://192.168.0.9/phpconex/validar_empresa.php", correo, contrasena);
+                    validarUsuario("http://10.0.11.118/phpconex/validar_empresa.php", correo, contrasena);
                 }
             }
 

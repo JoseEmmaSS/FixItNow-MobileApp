@@ -57,7 +57,7 @@ public class LoginEmpresas extends AppCompatActivity {
                     Toast.makeText(LoginEmpresas.this, "Por favor, completa todos los campos", Toast.LENGTH_SHORT).show();
                 } else if (validarContrasena(contrasena) && validarCorreo(correo)) {
                     if (contrasena.equals(confirmarContrasena)) {
-                        registrarUsuario("http://192.168.0.9/phpconex/IntertarEmpresa.php", nombre, usuario, contrasena, correo, telefono);
+                        registrarUsuario("http://10.0.11.118/phpconex/IntertarEmpresa.php", nombre, usuario, contrasena, correo, telefono);
                     } else {
                         Toast.makeText(LoginEmpresas.this, "La contraseña y la confirmación de contraseña no coinciden", Toast.LENGTH_SHORT).show();
                     }

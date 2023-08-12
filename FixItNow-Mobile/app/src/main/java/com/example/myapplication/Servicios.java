@@ -59,7 +59,7 @@ public class Servicios extends AppCompatActivity {
         String numeroTelefono = etNumeroTelefono.getText().toString();
 
         // URL del archivo PHP en el servidor
-        String url = "http://192.168.0.9/phpconex/AgregarServicio.php";
+        String url = "http://10.0.11.118/phpconex/AgregarServicio.php";
 
         // Crear una solicitud HTTP POST utilizando Volley
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,

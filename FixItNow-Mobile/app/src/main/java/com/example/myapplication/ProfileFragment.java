@@ -1,10 +1,11 @@
 package com.example.myapplication;
-
+import com.squareup.picasso.Picasso;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.myapplication.MainActivity;
@@ -47,7 +49,7 @@ public class ProfileFragment extends Fragment {
 
     private Bitmap bitmap;
     private int PICK_IMAGE_REQUEST = 1;
-    private String UPLOAD_URL = "http://192.168.0.10/phpconex/Actualizar.php";
+    private String UPLOAD_URL = "http://10.0.11.118/phpconex/Actualizar.php";
 
     private static final String KEY_IMAGE = "foto";
     private static final String KEY_NOMBRE_FOTO = "nombrefoto";
@@ -55,7 +57,7 @@ public class ProfileFragment extends Fragment {
     private static final String KEY_USUARIO = "user";
     private static final String KEY_TELEFONO = "telefono";
     private static final String KEY_CORREO = "correo";
-    private static final String KEY_id = "id";
+    private static final String KEY_id = "userId";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
@@ -127,6 +129,22 @@ public class ProfileFragment extends Fragment {
                 // Obtén el ID de usuario guardado en las SharedPreferences
                 SharedPreferences sharedPreferences = getActivity().getSharedPreferences(MainActivity.PREF_NAME, Context.MODE_PRIVATE);
                 String userId = sharedPreferences.getString("KEY_USER_ID", "");
+                if (!userId.isEmpty()) {
+                    final String toastMessage = "User ID: " + userId;
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getActivity(), toastMessage, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getActivity(), "User ID not found.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
                 //mandar archivos
                 Map<String, String> params = new HashMap<>();
                 params.put(KEY_IMAGE, foto);
@@ -172,7 +190,7 @@ public class ProfileFragment extends Fragment {
         String userId = sharedPreferences.getString("KEY_USER_ID", "");
 
         // Construye la URL completa con el ID
-        String consulta_URL = "http://192.168.0.10/phpconex/Extraer.php?id=" + userId;
+        String consulta_URL = "http://10.0.11.118/phpconex/Extraer.php?id=" + userId;
         Toast.makeText(getActivity(), "URL de consulta: " + consulta_URL, Toast.LENGTH_SHORT).show();
 
         // Realiza la solicitud al servidor
@@ -185,13 +203,19 @@ public class ProfileFragment extends Fragment {
 
                             if (jsonArray.length() > 0) {
                                 JSONObject jsonObject = jsonArray.getJSONObject(0);
-                                String foto = jsonObject.optString(KEY_IMAGE);
+                                String fotoUrl = jsonObject.optString(KEY_IMAGE); // Reemplaza con la clave correcta
+
+// Obtén una referencia al ImageView en tu diseño
+                                 // Reemplaza con el ID correcto
+
+// Carga y muestra la imagen utilizando Picasso
+                                Picasso.get().load(fotoUrl).into(iv);
                                 String name = jsonObject.optString(KEY_NOMBRE);
                                 String usuario = jsonObject.optString(KEY_USUARIO);
                                 String telefono = jsonObject.optString(KEY_TELEFONO);
                                 String correo = jsonObject.optString(KEY_CORREO);
 
-                                etNombrefoto.setText(foto);
+
                                 etNombre.setText(name);
                                 etUsuario.setText(usuario);
                                 etTelefono.setText(telefono);

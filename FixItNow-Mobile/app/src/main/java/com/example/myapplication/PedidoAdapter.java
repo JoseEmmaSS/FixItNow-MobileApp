@@ -81,7 +81,7 @@ public class PedidoAdapter extends RecyclerView.Adapter<PedidoAdapter.PedidoView
     }
 
     private void sendDeleteRequest(int pedidoId) {
-        String deleteUrl = "http://192.168.0.9/phpconex/Eliminarpedido.php";
+        String deleteUrl = "http://10.0.11.118/phpconex/Eliminarpedido.php";
 
         new AsyncTask<Void, Void, Boolean>() {
             @Override

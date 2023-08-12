@@ -48,7 +48,7 @@ public class EditarServicios extends AppCompatActivity {
         });
         String servicioId = getIntent().getStringExtra("servicioId");
 
-        String consultarServicioURL = "http://192.168.0.9/phpconex/ConsutarSerActualizar.php?servicioId=" + servicioId;
+        String consultarServicioURL = "http://10.0.11.118/phpconex/ConsutarSerActualizar.php?servicioId=" + servicioId;
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, consultarServicioURL,
@@ -106,7 +106,7 @@ public class EditarServicios extends AppCompatActivity {
                         "&numero_telefono=" + numeroTelefono;
 
                 // Enviar la solicitud POST
-                String actualizarServicioURL = "http://192.168.0.10/phpconex/ActualizarServicio.php";
+                String actualizarServicioURL = "http://10.0.11.118/phpconex/ActualizarServicio.php";
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, actualizarServicioURL,
                         new Response.Listener<String>() {
                             @Override

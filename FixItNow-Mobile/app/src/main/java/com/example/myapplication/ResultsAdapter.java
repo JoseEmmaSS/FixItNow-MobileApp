@@ -111,7 +111,7 @@ public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ViewHold
             public void run() {
                 try {
                     // URL del servidor
-                    URL url = new URL("http://192.168.0.9/phpconex/agendar.php");
+                    URL url = new URL("http://10.0.11.118/phpconex/agendar.php");
 
                     // Abrir una conexión HTTP
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();

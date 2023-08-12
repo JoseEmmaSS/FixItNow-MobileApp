@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Please enter email and password.", Toast.LENGTH_SHORT).show();
                 } else {
                     // Perform the regular login authentication
-                    validarUsuario("http://192.168.0.9/phpconex/validar_usuario.php", correo, contrasena);
+                    validarUsuario("http://10.0.11.118/phpconex/validar_usuario.php", correo, contrasena);
                 }
             }
         });
@@ -213,7 +213,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Error de autenticación, intente de otro modo", Toast.LENGTH_SHORT).show();
                 } else {
                     // Luego utiliza los valores para enviarlos al servidor PHP
-                    validarUsuario("http://192.168.0.9/phpconex/validar_usuario.php", correo, contrasena);
+                    validarUsuario("http://10.0.11.118/phpconex/validar_usuario.php", correo, contrasena);
                 }
             }
 

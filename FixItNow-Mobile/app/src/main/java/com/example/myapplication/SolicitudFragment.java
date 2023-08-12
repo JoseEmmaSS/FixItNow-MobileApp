@@ -46,7 +46,7 @@ public class SolicitudFragment extends Fragment implements PedidoAdapter.OnDelet
 
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences(MainActivity.PREF_NAME, Context.MODE_PRIVATE);
         String userId = sharedPreferences.getString("KEY_USER_ID", "");
-        consulta_URL = "http://192.168.0.9/phpconex/consultarpedidos.php?usuarioid=" + userId;
+        consulta_URL = "http://10.0.11.118/phpconex/consultarpedidos.php?usuarioid=" + userId;
 
         new ConsultarPedidosTask().execute(consulta_URL);
 

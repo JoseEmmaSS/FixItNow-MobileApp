@@ -35,7 +35,7 @@
 
         private ImageSlider imageSlider, imageSlider2;
 
-        private static final String BASE_URL = "http://192.168.0.9/phpconex/consultahome.php?q=";
+        private static final String BASE_URL = "http://10.0.11.118/phpconex/consultahome.php?q=";
 
         @Nullable
         @Override
@@ -44,16 +44,16 @@
 
             // Initialize your image sliders and other UI elements here
             ArrayList<SlideModel> slideModels = new ArrayList<>();
-            slideModels.add(new SlideModel("http://192.168.0.10/phpconex/Empresa/empres1/450_1000.jpg", ScaleTypes.FIT));
-            slideModels.add(new SlideModel("http://192.168.0.10/phpconex/Empresa/empres1/download.jpg", ScaleTypes.FIT));
-            slideModels.add(new SlideModel("http://192.168.0.10/phpconex/Empresa/empres1/stock-photo-happy-smile-caucasian-male-mechanic-showing-thumbs-up-while-checking-car-damage-diagnostic-and-2126609678.jpg", ScaleTypes.FIT));
+            slideModels.add(new SlideModel("http://10.0.11.118/phpconex/Empresa/empres1/450_1000.jpg", ScaleTypes.FIT));
+            slideModels.add(new SlideModel("http://10.0.11.118/phpconex/Empresa/empres1/download.jpg", ScaleTypes.FIT));
+            slideModels.add(new SlideModel("http://10.0.11.118/phpconex/Empresa/empres1/stock-photo-happy-smile-caucasian-male-mechanic-showing-thumbs-up-while-checking-car-damage-diagnostic-and-2126609678.jpg", ScaleTypes.FIT));
 
             ImageSlider imageSlider = view.findViewById(R.id.imageSlider); // Replace with the actual ID
             imageSlider.setImageList(slideModels, ScaleTypes.FIT);
 
             ArrayList<SlideModel> slideModelx = new ArrayList<>();
-            slideModelx.add(new SlideModel("http://192.168.0.10/phpconex/Empresa/empresa2/download.jpg", ScaleTypes.FIT));
-            slideModelx.add(new SlideModel("http://192.168.0.10/phpconex/Empresa/empresa2/placer-limpieza-k1hB--620x349@abc.jpg", ScaleTypes.FIT));
+            slideModelx.add(new SlideModel("http://10.0.11.118/phpconex/Empresa/empresa2/download.jpg", ScaleTypes.FIT));
+            slideModelx.add(new SlideModel("http://10.0.11.118/phpconex/Empresa/empresa2/placer-limpieza-k1hB--620x349@abc.jpg", ScaleTypes.FIT));
 
             ImageSlider imageSlider2 = view.findViewById(R.id.imageSlider2); // Replace with the actual ID
             imageSlider2.setImageList(slideModelx, ScaleTypes.FIT);

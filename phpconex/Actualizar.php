@@ -15,22 +15,25 @@ if ($conexion->connect_error) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $userId = $_POST['userId'];
     $imagen = $_POST['foto'];
     $nombreFoto = $_POST['nombrefoto'];
-    $nombre = $_POST['nombre'];
-    $usuario = $_POST['usuario'];
+    $nombre = $_POST['name'];
+    $usuario = $_POST['user'];
     $telefono = $_POST['telefono'];
     $correo = $_POST['correo'];
 
     // RUTA DONDE SE GUARDARAN LAS IMAGENES
     $path = "Fotos/" . $nombreFoto . ".png";
-    $actualpath = "http://localhost/phpconex/" . $path;
-    $sql = "INSERT INTO usuarios (name, user, correo, telefono, foto) VALUES ('$nombre', '$usuario', '$correo', '$telefono', '$actualpath')";
+    $actualpath = "http://10.0.11.118/phpconex/" . $path;
+    
+    // Actualizar la fila con el ID correspondiente
+    $sql = "UPDATE usuarios SET name = '$nombre', user = '$usuario', correo = '$correo', telefono = '$telefono', foto = '$actualpath' WHERE id = '$userId'";
 
     if (mysqli_query($conexion, $sql)) {
         file_put_contents($path, base64_decode($imagen));
 
-        echo "SE SUBIÓ EXITOSAMENTE";
+        echo "SE ACTUALIZÓ EXITOSAMENTE";
         mysqli_close($conexion);
     } else {
         echo "Error: " . mysqli_error($conexion);

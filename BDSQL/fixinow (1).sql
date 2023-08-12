@@ -11,7 +11,6 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
-
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -20,22 +19,23 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `fixinow`
 --
-CREATE DATABASE fixinow;
+CREATE DATABASE IF NOT EXISTS `fixinow`;
+USE `fixinow`;
 
 -- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `empresas`
 --
-
-CREATE TABLE `empresas` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `empresas` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   `user` varchar(50) NOT NULL,
   `psw` varchar(50) NOT NULL,
   `correo` varchar(50) NOT NULL,
-  `telefono` int(50) NOT NULL,
-  `foto` text NOT NULL
+  `telefono` bigint(20) NOT NULL,
+  `foto` text NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -51,13 +51,14 @@ INSERT INTO `empresas` (`id`, `name`, `user`, `psw`, `correo`, `telefono`, `foto
 -- Estructura de tabla para la tabla `pedidos`
 --
 
-CREATE TABLE `pedidos` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `pedidos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `empresa` varchar(50) DEFAULT NULL,
   `servicio` varchar(50) DEFAULT NULL,
   `telefono` varchar(50) DEFAULT NULL,
   `costo_servicio` varchar(50) DEFAULT NULL,
-  `usuarioid` int(11) DEFAULT NULL
+  `usuarioid` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -73,13 +74,14 @@ INSERT INTO `pedidos` (`id`, `empresa`, `servicio`, `telefono`, `costo_servicio`
 -- Estructura de tabla para la tabla `servicios`
 --
 
-CREATE TABLE `servicios` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `servicios` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `empresa` varchar(255) DEFAULT NULL,
   `tipo_servicio` text DEFAULT NULL,
   `costo_servicio` double DEFAULT NULL,
   `numero_telefono` text DEFAULT NULL,
-  `idusuario` text DEFAULT NULL
+  `idusuario` text DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -97,14 +99,15 @@ INSERT INTO `servicios` (`id`, `empresa`, `tipo_servicio`, `costo_servicio`, `nu
 -- Estructura de tabla para la tabla `usuarios`
 --
 
-CREATE TABLE `usuarios` (
-  `id` int(10) NOT NULL,
+CREATE TABLE IF NOT EXISTS `usuarios` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   `user` varchar(50) NOT NULL,
   `psw` varchar(50) NOT NULL,
   `correo` varchar(50) NOT NULL,
-  `telefono` int(50) NOT NULL,
-  `foto` text NOT NULL
+  `telefono` bigint(20) NOT NULL,
+  `foto` text NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -114,61 +117,6 @@ CREATE TABLE `usuarios` (
 INSERT INTO `usuarios` (`id`, `name`, `user`, `psw`, `correo`, `telefono`, `foto`) VALUES
 (1, 'Juan Perez', 'juan', '123', 'juan', 123456789, '');
 
---
--- Índices para tablas volcadas
---
-
---
--- Indices de la tabla `empresas`
---
-ALTER TABLE `empresas`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `pedidos`
---
-ALTER TABLE `pedidos`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `servicios`
---
-ALTER TABLE `servicios`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `usuarios`
---
-ALTER TABLE `usuarios`
-  ADD PRIMARY KEY (`id`);
-
---
--- AUTO_INCREMENT de las tablas volcadas
---
-
---
--- AUTO_INCREMENT de la tabla `empresas`
---
-ALTER TABLE `empresas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT de la tabla `pedidos`
---
-ALTER TABLE `pedidos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
---
--- AUTO_INCREMENT de la tabla `servicios`
---
-ALTER TABLE `servicios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
---
--- AUTO_INCREMENT de la tabla `usuarios`
---
-ALTER TABLE `usuarios`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
